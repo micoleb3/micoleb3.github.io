@@ -1,0 +1,282 @@
+/* ============================================================
+   style.css — 레이아웃 · 컴포넌트
+   토큰은 themes.css 참조 (var(--...))
+   ============================================================ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+body {
+  margin: 0;
+  background: var(--page);
+  color: var(--ink);
+  font-family: "IBM Plex Sans KR", system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 배경에 은은한 스코프 그리드 */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 48px 48px;
+  opacity: .18;
+  mask-image: radial-gradient(ellipse at 30% 0%, #000 0%, transparent 72%);
+}
+
+main, .nav, .foot { position: relative; z-index: 1; }
+
+a { color: inherit; }
+strong { color: var(--ink); font-weight: 600; }
+em { font-style: normal; color: var(--signal); }
+
+.mono, .readout, .proj__id, .proj__meta, .foot__mono, .contact__k, .proj__type {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+}
+
+/* ─── layout container ───────────────────────────────── */
+.nav, .hero, .section, .foot { padding-inline: clamp(20px, 6vw, 96px); }
+.hero, .section { max-width: 1040px; margin-inline: auto; }
+
+/* ─── nav ────────────────────────────────────────────── */
+.nav {
+  position: sticky; top: 0; z-index: 20;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 60px;
+  background: color-mix(in srgb, var(--page) 82%, transparent);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
+}
+.nav__brand {
+  font-weight: 700; font-size: 1.05rem; text-decoration: none; letter-spacing: -.01em;
+}
+.nav__brand-mark { color: var(--signal); animation: blink 1.2s step-end infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .nav__brand-mark { animation: none; } }
+
+.nav__links { display: flex; gap: clamp(14px, 3vw, 30px); }
+.nav__links a {
+  text-decoration: none; color: var(--muted); font-size: .92rem;
+  padding: 4px 0; border-bottom: 2px solid transparent; transition: color .15s, border-color .15s;
+}
+.nav__links a:hover, .nav__links a.is-active { color: var(--ink); border-color: var(--signal); }
+
+/* ─── hero ───────────────────────────────────────────── */
+.hero { padding-top: clamp(48px, 9vw, 104px); padding-bottom: clamp(32px, 6vw, 64px); }
+.hero__kicker {
+  margin: 0 0 14px; color: var(--signal);
+  font-family: "IBM Plex Mono", monospace; font-size: .82rem; letter-spacing: .16em;
+}
+.hero__name {
+  margin: 0; font-weight: 700; letter-spacing: -.02em; line-height: 1.02;
+  font-size: clamp(3rem, 11vw, 6.5rem);
+}
+.hero__line {
+  max-width: 54ch; margin: 20px 0 0; color: var(--muted); font-size: clamp(1rem, 2.2vw, 1.18rem);
+}
+
+/* oscilloscope */
+.scope {
+  margin: clamp(28px, 5vw, 48px) 0 0;
+  height: clamp(120px, 22vw, 180px);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background:
+    radial-gradient(120% 140% at 50% 0%, var(--signal-dim), transparent 60%),
+    var(--paper-2);
+  overflow: hidden;
+}
+.scope__svg { width: 100%; height: 100%; display: block; }
+.scope__grid { stroke: var(--line); stroke-width: 1; fill: none; }
+.scope__trace {
+  fill: none; stroke: var(--signal); stroke-width: 2.5;
+  stroke-linejoin: round; stroke-linecap: round;
+  filter: drop-shadow(0 0 6px var(--signal-dim));
+  stroke-dasharray: 2000; stroke-dashoffset: 2000;
+  animation: trace 2.2s ease-out .2s forwards;
+}
+@keyframes trace { to { stroke-dashoffset: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .scope__trace { animation: none; stroke-dashoffset: 0; }
+}
+
+/* HMI readout */
+.readout {
+  margin: clamp(24px, 4vw, 36px) 0 0; padding: 0;
+  display: grid; gap: 1px;
+  border: 1px solid var(--line); border-radius: 6px; overflow: hidden;
+  background: var(--line);
+  font-family: "IBM Plex Mono", monospace; font-size: .86rem;
+}
+.readout > div {
+  display: grid; grid-template-columns: 88px 1fr; gap: 12px;
+  padding: 11px 16px; background: var(--paper);
+}
+.readout dt { margin: 0; color: var(--signal); }
+.readout dd { margin: 0; color: var(--ink); }
+.readout .dot {
+  display: inline-block; width: 8px; height: 8px; margin-right: 8px; border-radius: 50%;
+  background: var(--signal); box-shadow: 0 0 8px var(--signal);
+  animation: pulse 1.6s ease-in-out infinite;
+}
+@keyframes pulse { 50% { opacity: .35; } }
+@media (prefers-reduced-motion: reduce) { .readout .dot { animation: none; } }
+
+/* ─── section ────────────────────────────────────────── */
+.section { padding-top: clamp(48px, 8vw, 88px); padding-bottom: 0; }
+.section--contact { padding-bottom: clamp(48px, 8vw, 88px); }
+.section__title {
+  margin: 0 0 24px; font-size: clamp(1.5rem, 4vw, 2.1rem); font-weight: 700; letter-spacing: -.01em;
+  display: flex; align-items: center; gap: 14px;
+}
+.section__title::before {
+  content: ""; width: 26px; height: 2px; background: var(--signal);
+}
+.section__note { margin: -8px 0 28px; color: var(--muted); font-size: .95rem; }
+.section__note em { color: var(--ink); font-weight: 500; }
+.section__note-todo, .prose__todo, .chips__todo, .steps__todo, .section__note-todo {
+  color: var(--muted);
+}
+
+/* placeholder 시각 표시 */
+.prose__todo, .steps__todo, .chips__todo {
+  border-bottom: 1px dashed color-mix(in srgb, var(--signal) 55%, transparent);
+}
+
+/* ─── prose ──────────────────────────────────────────── */
+.prose { max-width: 62ch; }
+.prose p { margin: 0 0 14px; color: var(--muted); }
+.prose p strong { color: var(--ink); }
+
+/* ─── skills ─────────────────────────────────────────── */
+.skills {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px;
+}
+.skills__group h3 {
+  margin: 0 0 12px; font-size: .82rem; letter-spacing: .1em; color: var(--signal);
+  font-family: "IBM Plex Mono", monospace; font-weight: 500;
+}
+.chips { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.chips li {
+  padding: 6px 12px; border: 1px solid var(--line); border-radius: 4px;
+  background: var(--paper); font-size: .9rem; color: var(--ink);
+  transition: border-color .15s, color .15s;
+}
+.chips li:hover { border-color: var(--signal); color: var(--signal); }
+
+/* ─── projects ───────────────────────────────────────── */
+.proj {
+  display: grid; grid-template-columns: 220px 1fr; gap: 0;
+  border: 1px solid var(--line); border-radius: 6px; overflow: hidden;
+  background: var(--paper); margin-bottom: 20px;
+}
+.proj__rail {
+  padding: 22px; border-right: 1px solid var(--line);
+  background: var(--paper-2);
+  display: flex; flex-direction: column; gap: 14px;
+}
+.proj__id { color: var(--signal); font-size: .9rem; font-weight: 600; letter-spacing: .08em; }
+.proj__type {
+  font-size: .74rem; color: var(--muted); letter-spacing: .06em;
+  padding: 3px 8px; border: 1px solid var(--line); border-radius: 3px; align-self: flex-start;
+}
+.proj__meta { margin: 6px 0 0; display: grid; gap: 10px; font-size: .82rem; }
+.proj__meta > div { display: grid; grid-template-columns: 40px 1fr; gap: 10px; }
+.proj__meta dt { margin: 0; color: var(--muted); }
+.proj__meta dd { margin: 0; color: var(--ink); }
+
+.proj__body { padding: 24px clamp(20px, 3vw, 30px); }
+.proj__title { margin: 0 0 18px; font-size: 1.2rem; font-weight: 600; }
+
+.steps { margin: 0; display: grid; gap: 0; }
+.steps > div {
+  display: grid; grid-template-columns: 76px 1fr; gap: 16px;
+  padding: 11px 0; border-top: 1px solid var(--line);
+}
+.steps > div:first-child { border-top: 0; }
+.steps dt {
+  margin: 0; color: var(--signal); font-size: .8rem; font-weight: 500;
+  font-family: "IBM Plex Mono", monospace; padding-top: 2px;
+}
+.steps dd { margin: 0; color: var(--muted); }
+.steps dd strong { color: var(--ink); }
+
+.proj__links { display: flex; gap: 18px; margin-top: 20px; }
+.proj__links a {
+  font-size: .88rem; color: var(--signal); text-decoration: none;
+  border-bottom: 1px solid transparent; transition: border-color .15s;
+}
+.proj__links a:hover { border-color: var(--signal); }
+
+/* ─── contact ────────────────────────────────────────── */
+.contact { display: flex; flex-wrap: wrap; gap: 40px; align-items: flex-start; justify-content: space-between; }
+.contact__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+.contact__list li { display: grid; grid-template-columns: 84px 1fr; gap: 16px; align-items: center; }
+.contact__k { color: var(--muted); font-size: .82rem; }
+.contact__list a, .contact__copy { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--line); }
+.contact__list a:hover { border-color: var(--signal); }
+.contact__copy {
+  background: none; border: 0; border-bottom: 1px solid var(--line); padding: 0;
+  font: inherit; color: var(--ink); cursor: pointer;
+}
+.contact__copy:hover { border-color: var(--signal); }
+.contact__copy.is-copied { color: var(--signal); border-color: var(--signal); }
+.contact__qr {
+  display: grid; justify-items: center; gap: 8px; color: var(--muted); font-size: .8rem;
+  padding: 12px; border: 1px solid var(--line); border-radius: 6px; background: var(--paper);
+}
+.contact__qr img { background: #fff; padding: 6px; border-radius: 4px; }
+
+/* ─── footer ─────────────────────────────────────────── */
+.foot {
+  margin-top: clamp(56px, 9vw, 96px); padding-block: 26px;
+  border-top: 1px solid var(--line);
+  display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between;
+  color: var(--muted); font-size: .84rem;
+}
+.foot__mono { font-size: .78rem; opacity: .8; }
+
+/* ─── theme selector (localhost 전용, app.js가 주입) ──── */
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 6px; padding: 8px;
+  background: var(--paper); border: 1px solid var(--line); border-radius: 8px;
+  box-shadow: 0 6px 24px var(--shadow);
+}
+.theme-switch button {
+  width: 26px; height: 26px; border-radius: 5px; border: 1px solid var(--line);
+  cursor: pointer; padding: 0;
+}
+.theme-switch button.is-active { outline: 2px solid var(--signal); outline-offset: 1px; }
+
+/* ─── responsive ─────────────────────────────────────── */
+@media (max-width: 680px) {
+  .nav__brand { font-size: .98rem; }
+  .proj { grid-template-columns: 1fr; }
+  .proj__rail { border-right: 0; border-bottom: 1px solid var(--line); flex-direction: row; flex-wrap: wrap; align-items: center; gap: 12px 18px; }
+  .proj__meta { grid-template-columns: 1fr 1fr; width: 100%; }
+  .steps > div { grid-template-columns: 64px 1fr; gap: 12px; }
+  .readout > div { grid-template-columns: 72px 1fr; }
+}
+
+/* ─── print / PDF ────────────────────────────────────── */
+@media print {
+  body { font-size: 11pt; line-height: 1.45; }
+  body::before { display: none; }
+  .nav, .scope, .theme-switch, .foot__mono, .nav__brand-mark { display: none !important; }
+  .hero { padding-top: 0; }
+  .hero__name { font-size: 30pt; }
+  .section, .hero { max-width: none; padding-inline: 0; }
+  .proj, .chips li, .contact__qr, .scope, .readout { break-inside: avoid; box-shadow: none; }
+  .readout .dot { animation: none; }
+  a { text-decoration: none; }
+}

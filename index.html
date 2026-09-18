@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="nightlime">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>채윤식 · 임베디드 / 산업자동화 포트폴리오</title>
+  <meta name="description" content="임베디드 시스템과 산업 자동화를 공부하는 엔지니어 채윤식의 포트폴리오. STM32 펌웨어, ROS2 로봇, PLC 제어 프로젝트." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="themes.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- ─── nav ─────────────────────────────────────────── -->
+  <header class="nav" id="top">
+    <a class="nav__brand" href="#top">채윤식<span class="nav__brand-mark">_</span></a>
+    <nav class="nav__links" aria-label="주요 섹션">
+      <a href="#about">소개</a>
+      <a href="#skills">기술</a>
+      <a href="#work">프로젝트</a>
+      <a href="#contact">연락</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- ─── hero ──────────────────────────────────────── -->
+    <section class="hero" id="hero">
+      <div class="hero__text">
+        <p class="hero__kicker">임베디드 · 산업 자동화</p>
+        <h1 class="hero__name">채윤식</h1>
+        <p class="hero__line">
+          센서에서 제어기, 구동부까지 <strong>신호가 흐르는 전 구간</strong>을
+          직접 만들며 배우는 엔지니어. STM32 펌웨어부터 ROS2 로봇,
+          PLC 제어까지 저수준에서 손으로 다룹니다.
+        </p>
+      </div>
+
+      <!-- 오실로스코프 시그널 (로드 시 1회 드로잉) -->
+      <div class="scope" aria-hidden="true">
+        <svg viewBox="0 0 640 160" preserveAspectRatio="none" class="scope__svg">
+          <path class="scope__grid" d="M0 40 H640 M0 80 H640 M0 120 H640 M160 0 V160 M320 0 V160 M480 0 V160" />
+          <path class="scope__trace" d="M0 80 L60 80 L60 30 L140 30 L140 80 L200 80 L200 130 L260 130
+            Q290 130 300 80 Q312 20 340 80 Q360 120 380 80 L440 80 L440 40 L520 40 L520 80 L640 80" />
+        </svg>
+      </div>
+
+      <!-- HMI 상태 리드아웃 -->
+      <dl class="readout" aria-label="현재 상태">
+        <div><dt>FIELD</dt><dd>임베디드 / 산업자동화</dd></div>
+        <div><dt>STACK</dt><dd>STM32 · ROS2 · PLC · C/C++</dd></div>
+        <div><dt>BASE</dt><dd>{{지역 · 예: 인천 / 수도권}}</dd></div>
+        <div><dt>STATUS</dt><dd><span class="dot"></span>구직 중 — 로봇 · 임베디드 · 기술영업</dd></div>
+      </dl>
+    </section>
+
+    <!-- ─── about ─────────────────────────────────────── -->
+    <section class="section" id="about">
+      <h2 class="section__title">소개</h2>
+      <div class="prose">
+        <p>
+          PLC 래더 로직부터 STM32 베어메탈 펌웨어, 리눅스와 ROS2까지
+          하나의 명령이 어떻게 코드를 지나 실제 모터를 돌리는지
+          전 구간을 직접 다뤄보는 걸 좋아합니다.
+        </p>
+        <p>
+          팀 프로젝트에서는 주로 <strong>저수준 제어(모터 · 펌웨어)</strong>를
+          맡아, 이론보다 “실제로 움직이게 만드는” 쪽에서 강점을 쌓아왔습니다.
+        </p>
+        <p class="prose__todo">{{추가하고 싶은 한 줄 — 예: 관심 분야, 목표, 성향}}</p>
+      </div>
+    </section>
+
+    <!-- ─── skills ────────────────────────────────────── -->
+    <section class="section" id="skills">
+      <h2 class="section__title">기술</h2>
+      <div class="skills">
+        <div class="skills__group">
+          <h3>임베디드 · 펌웨어</h3>
+          <ul class="chips">
+            <li>STM32 (NUCLEO-F411RE)</li>
+            <li>베어메탈 / HAL</li>
+            <li>모터 제어</li>
+            <li>타이머 · PWM</li>
+            <li class="chips__todo">{{추가}}</li>
+          </ul>
+        </div>
+        <div class="skills__group">
+          <h3>로봇 · ROS</h3>
+          <ul class="chips">
+            <li>ROS2 (Jazzy)</li>
+            <li>Gazebo 시뮬레이션</li>
+            <li>자율주행 · 도킹</li>
+            <li class="chips__todo">{{추가}}</li>
+          </ul>
+        </div>
+        <div class="skills__group">
+          <h3>산업 자동화</h3>
+          <ul class="chips">
+            <li>PLC 래더 프로그래밍</li>
+            <li class="chips__todo">{{HMI / 센서 / 통신 등 추가}}</li>
+          </ul>
+        </div>
+        <div class="skills__group">
+          <h3>언어 · 개발환경</h3>
+          <ul class="chips">
+            <li>C</li>
+            <li>C++</li>
+            <li>Python</li>
+            <li>Linux</li>
+            <li>Git</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── work ──────────────────────────────────────── -->
+    <section class="section" id="work">
+      <h2 class="section__title">프로젝트</h2>
+      <p class="section__note">
+        각 프로젝트는 <em>문제 → 목표 → 역할 → 구현 → 검증 → 결과 → 배운 점</em>
+        순서로 정리했습니다. <span class="section__note-todo">{{ }} 표시는 직접 채워야 하는 자리</span>
+      </p>
+
+      <!-- project 01 -->
+      <article class="proj">
+        <div class="proj__rail">
+          <span class="proj__id">P-01</span>
+          <span class="proj__type">팀 · 임베디드</span>
+          <dl class="proj__meta">
+            <div><dt>역할</dt><dd>모터 제어</dd></div>
+            <div><dt>스택</dt><dd>STM32 · C · 4-DOF Arm</dd></div>
+            <div><dt>기간</dt><dd>{{기간}}</dd></div>
+          </dl>
+        </div>
+        <div class="proj__body">
+          <h3 class="proj__title">ChaPaRi — RC 집게차 (그래플 트럭)</h3>
+          <dl class="steps">
+            <div><dt>문제</dt><dd>주행과 4자유도 집게 암을 동시에, 흔들림 없이 원격 제어해야 상·하차 작업을 재현할 수 있다.</dd></div>
+            <div><dt>목표</dt><dd>RC 조작으로 차량을 주행시키고 집게 암으로 물체를 집어 옮긴다.</dd></div>
+            <div><dt>역할</dt><dd>주행·암 구동을 위한 <strong>모터 제어 전담</strong> (STM32 펌웨어).</dd></div>
+            <div><dt>구현</dt><dd class="steps__todo">{{실제 구현 — 예: 타이머 기반 PWM, 모터드라이버 제어, 다채널 제어 루프 구조}}</dd></div>
+            <div><dt>검증</dt><dd class="steps__todo">{{검증 방법 — 예: 벤치 테스트, 실주행 시연}}</dd></div>
+            <div><dt>결과</dt><dd class="steps__todo">{{실제 결과 · 시연 영상/GIF 링크 — 없는 수치는 쓰지 않기}}</dd></div>
+            <div><dt>배운 점</dt><dd class="steps__todo">{{배운 점}}</dd></div>
+          </dl>
+          <div class="proj__links">
+            <a href="{{repo-url}}">저장소</a>
+            <a href="{{demo-url}}">시연 영상</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- project 02 -->
+      <article class="proj">
+        <div class="proj__rail">
+          <span class="proj__id">P-02</span>
+          <span class="proj__type">팀 · 산업안전</span>
+          <dl class="proj__meta">
+            <div><dt>역할</dt><dd>{{담당}}</dd></div>
+            <div><dt>스택</dt><dd>Raspberry Pi 5 · Vision</dd></div>
+            <div><dt>기간</dt><dd>{{기간}}</dd></div>
+          </dl>
+        </div>
+        <div class="proj__body">
+          <h3 class="proj__title">Safe Eye — PPE 미착용 · 위험구역 감지 CCTV</h3>
+          <dl class="steps">
+            <div><dt>문제</dt><dd>현장에서 보호구 미착용과 위험구역 침입을 사람이 계속 감시하기는 어렵다.</dd></div>
+            <div><dt>목표</dt><dd>카메라로 PPE 미착용과 위험구역 침입을 자동으로 감지·경고한다.</dd></div>
+            <div><dt>역할</dt><dd class="steps__todo">{{맡은 역할 — 예: 영상 파이프라인, 감지 로직, 하드웨어 셋업}}</dd></div>
+            <div><dt>구현</dt><dd class="steps__todo">{{Raspberry Pi 5 CCTV 구성, 감지 모델/파이프라인 — 실제 내용}}</dd></div>
+            <div><dt>검증</dt><dd class="steps__todo">{{검증 방법}}</dd></div>
+            <div><dt>결과</dt><dd class="steps__todo">{{실제 결과 · 데모}}</dd></div>
+            <div><dt>배운 점</dt><dd class="steps__todo">{{배운 점}}</dd></div>
+          </dl>
+          <div class="proj__links">
+            <a href="{{repo-url}}">저장소</a>
+            <a href="{{demo-url}}">시연 영상</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- project 03 -->
+      <article class="proj">
+        <div class="proj__rail">
+          <span class="proj__id">P-03</span>
+          <span class="proj__type">개인 · 로봇</span>
+          <dl class="proj__meta">
+            <div><dt>역할</dt><dd>단독 개발</dd></div>
+            <div><dt>스택</dt><dd>ROS2 Jazzy · Gazebo</dd></div>
+            <div><dt>기간</dt><dd>{{기간}}</dd></div>
+          </dl>
+        </div>
+        <div class="proj__body">
+          <h3 class="proj__title">Pinky Patrol &amp; Docking — 자율 순찰·도킹</h3>
+          <dl class="steps">
+            <div><dt>문제</dt><dd>순찰 로봇은 임무를 마친 뒤 스스로 충전 스테이션으로 복귀·도킹할 수 있어야 한다.</dd></div>
+            <div><dt>목표</dt><dd>Gazebo 시뮬레이션에서 Pinky 로봇이 순찰 후 자동으로 도킹한다.</dd></div>
+            <div><dt>역할</dt><dd>기획부터 구현까지 <strong>단독 개발</strong>.</dd></div>
+            <div><dt>구현</dt><dd class="steps__todo">{{ROS2 노드 구성, 내비게이션·도킹 로직 — 실제 내용}}</dd></div>
+            <div><dt>검증</dt><dd class="steps__todo">{{시뮬레이션 검증 방법}}</dd></div>
+            <div><dt>결과</dt><dd class="steps__todo">{{도킹 성공 조건/결과 · 데모}}</dd></div>
+            <div><dt>배운 점</dt><dd class="steps__todo">{{배운 점}}</dd></div>
+          </dl>
+          <div class="proj__links">
+            <a href="{{repo-url}}">저장소</a>
+            <a href="{{demo-url}}">시연 영상</a>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- ─── contact ───────────────────────────────────── -->
+    <section class="section section--contact" id="contact">
+      <h2 class="section__title">연락</h2>
+      <div class="contact">
+        <ul class="contact__list">
+          <li>
+            <span class="contact__k">Email</span>
+            <button class="contact__copy" type="button" data-copy="{{email}}">{{email}}</button>
+          </li>
+          <li>
+            <span class="contact__k">GitHub</span>
+            <a href="https://github.com/{{github-username}}">github.com/{{github-username}}</a>
+          </li>
+          <li>
+            <span class="contact__k">이력서</span>
+            <a href="{{resume-pdf}}">PDF 내려받기</a>
+          </li>
+        </ul>
+        <div class="contact__qr">
+          <!-- 배포 후 실제 포트폴리오 URL로 만든 Static QR(SVG/PNG)을 assets/에 넣고 교체 -->
+          <img src="assets/qr.svg" alt="포트폴리오 주소 QR" width="120" height="120" />
+          <span>포트폴리오 주소</span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <span>© <span id="year"></span> 채윤식</span>
+    <span class="foot__mono">built &amp; deployed via dev → PR → main → GitHub Pages</span>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

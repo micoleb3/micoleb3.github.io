@@ -1,0 +1,65 @@
+/* ============================================================
+   themes.css — 색상 토큰 + 테마 전환 + 인쇄(PDF) 테마
+   웹: 다크(nightlime) / 인쇄: 라이트
+   ============================================================ */
+
+/* 기본(웹) 테마 — nightlime : 딥네이비 + 라임 시그널 */
+:root,
+:root[data-theme="nightlime"] {
+  --page:      #0b1220;   /* 배경 */
+  --paper:     #121d30;   /* 패널 표면 */
+  --paper-2:   #0e1728;   /* 인셋/보조 표면 */
+  --line:      #22314c;   /* 하이라인/보더 */
+  --ink:       #f2f6fb;   /* 본문 텍스트 */
+  --muted:     #8ea3c4;   /* 보조 텍스트 */
+  --signal:    #b7ed64;   /* 라임 액센트(신호) */
+  --signal-dim: rgba(183, 237, 100, .12);
+  --teal:      #4fd6c2;   /* 보조 액센트(절제해서) */
+  --shadow:    rgba(0, 0, 0, .35);
+}
+
+/* 대안 테마 A — slate-amber (localhost 비교용) */
+:root[data-theme="slateamber"] {
+  --page:      #10141c;
+  --paper:     #171d28;
+  --paper-2:   #131824;
+  --line:      #2b3242;
+  --ink:       #eef1f6;
+  --muted:     #9aa4b6;
+  --signal:    #ffb454;
+  --signal-dim: rgba(255, 180, 84, .12);
+  --teal:      #6fb3ff;
+  --shadow:    rgba(0, 0, 0, .4);
+}
+
+/* 대안 테마 B — mono-ink (localhost 비교용) */
+:root[data-theme="monoink"] {
+  --page:      #0d0f12;
+  --paper:     #16191e;
+  --paper-2:   #121418;
+  --line:      #2a2f36;
+  --ink:       #f4f5f7;
+  --muted:     #9ea4ac;
+  --signal:    #e6e8ec;
+  --signal-dim: rgba(230, 232, 236, .10);
+  --teal:      #b7ed64;
+  --shadow:    rgba(0, 0, 0, .45);
+}
+
+/* ============================================================
+   인쇄 / PDF — 라이트 테마 (웹과 분리)
+   ============================================================ */
+@media print {
+  :root {
+    --page:      #ffffff !important;
+    --paper:     #ffffff !important;
+    --paper-2:   #ffffff !important;
+    --line:      #c9d0da !important;
+    --ink:       #10151f !important;
+    --muted:     #4a5568 !important;
+    --signal:    #2457e6 !important;   /* 인쇄 액센트: 블루 */
+    --signal-dim: #eef2fb !important;
+    --teal:      #0b8b80 !important;
+    --shadow:    transparent !important;
+  }
+}

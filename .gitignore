@@ -1,0 +1,26 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors
+.vscode/
+.idea/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Local environment / secrets
+.env
+.env.*
+!.env.example
+
+# Temporary files
+*.log
+*.tmp
+*~
+
+# 주의: 아래 파일은 실제 사이트 구성 파일이므로 ignore 금지
+# index.html  app.js  style.css  themes.css  assets/  README.md  preview.py
