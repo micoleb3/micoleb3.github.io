@@ -4,7 +4,7 @@
 
 ## Live Site
 
-{{배포 주소 — 예: https://{{github-username}}.github.io}}
+https://micoleb3.github.io
 
 ## Overview
 
