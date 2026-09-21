@@ -143,26 +143,117 @@
         </div>
       </article>
 
-      <!-- PROJECT 02 : placeholder ───────────────────── -->
-      <article class="proj proj--stub" id="project-safeeye">
+      <!-- PROJECT 02 : Safe Eye ──────────────────────── -->
+      <article class="proj" id="project-safeeye">
         <div class="proj__tag">
-          <span class="proj__badge">PROJECT 02 / VISION · SAFETY</span>
-          <div class="proj__chips"><span>Raspberry Pi 5</span><span>Vision</span></div>
+          <span class="proj__badge">PROJECT 02 / ON-DEVICE AI · SAFETY</span>
+          <div class="proj__chips">
+            <span>Raspberry Pi 5</span><span>YOLO11</span><span>MobileNetV3</span>
+            <span>Python</span><span>멀티라벨 분류</span>
+          </div>
         </div>
-        <h3 class="proj__title">Safe Eye — PPE·위험구역 감지 CCTV</h3>
-        <p class="proj__tagline">보호구 미착용과 위험구역 침입을 자동으로 감지·경고하는 산업안전 시스템.</p>
-        <p class="proj__stub-msg">{{ 이 프로젝트 자료(코드·사진·발표자료)를 주면 ChaPaRi와 같은 형식으로 채웁니다 }}</p>
+
+        <h3 class="proj__title">Safe Eye — On-Device AI 산업 현장 안전 감지</h3>
+        <p class="proj__tagline">
+          고정 카메라 비전으로 작업자의 PPE(안전모·안전조끼) 미착용과 위험구역 접근을
+          네트워크 없이 단말에서 실시간 감지.
+        </p>
+
+        <div class="proj__grid">
+          <dl class="facts">
+            <div><dt>목표</dt><dd>추론이 단말에서 끝나는 On-Device 안전 비전 — PPE 판별과 위험구역 판정을 동시에.</dd></div>
+            <div><dt>내 역할</dt><dd><strong>PPE MLC 모델 설계·학습</strong> · <strong>위험지역 감지 시스템</strong></dd></div>
+            <div><dt>팀 구성</dt><dd>4인 팀 · MLC 모델 & Danger Zone 파트 담당</dd></div>
+          </dl>
+        </div>
+
+        <div class="proj__block">
+          <h4 class="proj__h4">담당 구현</h4>
+          <ul class="doing">
+            <li>
+              <span class="doing__k">MLC</span>
+              person 크롭을 MobileNetV3Large 멀티라벨 헤드(헬멧·조끼 Sigmoid×2)로 분류.
+              상태 코드별 분포가 극단적(01 코드 ≈900장 vs 10 코드 ≈25,000장)인 문제를
+              <strong>균등 샘플링 + Stratified 3분할</strong>로 잡아 학습을 안정화.
+            </li>
+            <li>
+              <span class="doing__k">위험구역</span>
+              YOLO11n으로 위험 표지판을 탐지 → bbox를 확장해 Danger Zone polygon 생성 →
+              person bbox 하단(발 위치)이 polygon에 들어오면 즉시 DANGER 경고.
+              표지판은 고정 위치라 30프레임 단위 탐지 후 캐시 재사용으로 자원 절약.
+            </li>
+          </ul>
+        </div>
+
+        <div class="proj__block">
+          <h4 class="proj__h4">검증 · 결과</h4>
+          <ul class="result">
+            <li>MLC Validation 정확도 — <strong>헬멧 91.0% · 조끼 91.8%</strong> (KPI 80% 상회)</li>
+            <li>위험구역 감지 YOLO11n — <strong>Precision 1.000 · Recall 0.940</strong></li>
+            <li>OD vs MLC를 동일 person 박스·독립 GT(1,477명)로 공정 비교해 환경별 최적 모델 선정 근거 제시</li>
+          </ul>
+        </div>
+
+        <div class="proj__note">
+          <span class="proj__note-k">협업 범위</span>
+          PPE OD 모델 · 하드웨어(IR·카메라·스피커) · 학습/평가 데이터 전처리 · 시스템 통합·프론트엔드
+          대시보드는 팀원이 담당했습니다.
+        </div>
+
+        <div class="proj__links">
+          <a href="{{Safe Eye GitHub 링크}}">GitHub ↗</a>
+          <a href="{{시연영상 링크}}">시연영상 ↗</a>
+          <a href="{{보고서 링크}}">결과보고서 ↗</a>
+        </div>
       </article>
 
-      <!-- PROJECT 03 : placeholder ───────────────────── -->
-      <article class="proj proj--stub" id="project-pinky">
+      <!-- PROJECT 03 : PLC ────────────────────────────── -->
+      <article class="proj" id="project-plc">
         <div class="proj__tag">
-          <span class="proj__badge">PROJECT 03 / ROS 2 · SIMULATION</span>
-          <div class="proj__chips"><span>ROS 2 Jazzy</span><span>Gazebo</span></div>
+          <span class="proj__badge">PROJECT 03 / PLC · FACTORY AUTOMATION</span>
+          <div class="proj__chips">
+            <span>Mitsubishi Q03UDV</span><span>QD77MS2</span><span>GX Works2</span>
+            <span>GT Designer3</span><span>서보 위치결정</span>
+          </div>
         </div>
-        <h3 class="proj__title">Pinky — 자율 순찰·도킹</h3>
-        <p class="proj__tagline">Gazebo 시뮬레이션에서 순찰 후 충전 스테이션으로 자동 복귀·도킹.</p>
-        <p class="proj__stub-msg">{{ 이 프로젝트 자료를 주면 같은 형식으로 채웁니다 }}</p>
+
+        <h3 class="proj__title">PLC 기반 금속·비금속 분류 적재·배출 자동화</h3>
+        <p class="proj__tagline">
+          금속과 비금속을 구별해 창고에 층별 적재하고, 필요 시 다시 배출하는 자동화 시스템.
+          서보 위치결정과 HMI, 안전 설계까지 하나의 공정으로 구현.
+        </p>
+
+        <div class="proj__grid">
+          <dl class="facts">
+            <div><dt>목표</dt><dd>재료 판별 → 창고 층별 적재 → 배출까지 전 공정을 PLC로 자동화.</dd></div>
+            <div><dt>스택</dt><dd>Mitsubishi Q03UDV · QD77MS2 서보 위치결정 · GX Works2(래더) · GT Designer3(GOT2000 HMI)</dd></div>
+          </dl>
+        </div>
+
+        <div class="proj__block">
+          <h4 class="proj__h4">담당 구현</h4>
+          <ul class="doing">
+            <li><span class="doing__k">모션</span>QD77MS2 서보 위치결정 모듈로 층별 적재·흡착 위치 제어(INCP 상대 위치결정).</li>
+            <li><span class="doing__k">HMI</span>GT Designer3로 동작상태·적재현황 램프, 원점복귀·JOG 수동조작·배출 버튼 구성.</li>
+            <li><span class="doing__k">안전</span>M987로 자기유지(M100·M199)를 끊어 PLC를 즉시 정지시키는 비상정지 설계.</li>
+          </ul>
+        </div>
+
+        <div class="proj__block proj__block--quiet">
+          <h4 class="proj__h4">트러블슈팅</h4>
+          <ul class="result">
+            <li><strong>서보 층 이동 실패</strong> — 다음 소재가 들어와도 위층으로 안 올라가고 1층에서 적재만 반복 → 조건 수정 후 정상 동작 확인</li>
+            <li><strong>INCP 중복 실행</strong> — 배출 시 자기유지 해제 타이밍이 안 맞아 INCP D값이 중복 실행 → 초기화 조건에 동작완료 b접점을 추가해 초기화 중 INCP 차단</li>
+          </ul>
+        </div>
+
+        <div class="proj__block">
+          <h4 class="proj__h4">결과</h4>
+          <ul class="result">
+            <li>재료 판별·적재·배출 전 공정 자동 동작, 비상정지 확인</li>
+            <li>현장 인수인계용 One-paper 유지보수 매뉴얼 작성 (초기화 순서 정리)</li>
+          </ul>
+        </div>
       </article>
     </section>
 
@@ -191,9 +282,15 @@
         </article>
         <article class="skill">
           <span class="skill__no">03</span>
-          <h3>로봇 · 자동화</h3>
-          <p class="skill__stack">ROS 2 · Python · PLC 래더</p>
-          <p class="skill__desc">ROS2/Gazebo 자율주행 실습, PLC 공정 제어 시퀀스 학습.</p>
+          <h3>AI 비전 · On-Device</h3>
+          <p class="skill__stack">YOLO11 · MobileNetV3 · Python</p>
+          <p class="skill__desc">멀티라벨 분류 모델 설계·학습, 클래스 불균형 처리, 위험구역 감지 파이프라인 구현.</p>
+        </article>
+        <article class="skill">
+          <span class="skill__no">04</span>
+          <h3>산업 자동화</h3>
+          <p class="skill__stack">PLC · 서보 위치결정 · HMI</p>
+          <p class="skill__desc">Mitsubishi PLC 래더, QD77MS2 서보 위치결정, GT Designer3 HMI 구성과 안전 설계.</p>
         </article>
       </div>
       <p class="skills__foot">관련 분야 / 로봇 SW · 임베디드 · 산업 자동화 · 기술영업</p>
