@@ -271,4 +271,8 @@ strong { color: var(--ink); font-weight: 600; }
   border: 1px solid var(--line); border-radius: 8px; background: #000;
 }
 .proj__video figcaption { margin-top: 10px; color: var(--muted); font-size: .82rem; text-align: center; }
-@media print { .proj__video video { display: none; } }
+.proj__video--pair { display: grid; gap: 14px; }
+.proj__video--pair figure { margin: 0; }
+.proj__video--pair video { aspect-ratio: 16 / 9; }
+@media (min-width: 720px) { .proj__video--pair { grid-template-columns: 1fr 1fr; } }
+@media print { .proj__video video, .proj__video--pair { display: none; } }
