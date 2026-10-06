@@ -1,56 +1,41 @@
-# Portfolio
+# 채윤식 · Embedded & Industrial Automation Portfolio
 
-채윤식(임베디드 · 산업 자동화) 개인 포트폴리오 웹사이트.
+하드웨어부터 펌웨어까지, 직접 만드는 제어 시스템.
+STM32 임베디드 제어, On-Device AI 비전, PLC 산업 자동화 프로젝트를 정리한 포트폴리오입니다.
 
-## Live Site
+**🔗 https://micoleb3.github.io**
 
-https://micoleb3.github.io
-
-## Overview
-
-- 프로젝트 중심 구성 (문제 → 역할 → 구현 → 검증 → 결과 → 배운 점)
-- 직접 담당한 역할만 기술
-- 웹은 다크 테마 / 인쇄(PDF)는 라이트 테마로 분리
-- 정적 사이트 (외부 라이브러리 없음)
+---
 
 ## Projects
 
-- **ChaPaRi** — RC 집게차(그래플 트럭), STM32 모터 제어
-- **Safe Eye** — Raspberry Pi 5 PPE·위험구역 감지 CCTV
-- **Pinky Patrol & Docking** — ROS2/Gazebo 자율 순찰·도킹
+| 프로젝트 | 내용 | 내 역할 | 코드 |
+|---|---|---|---|
+| **ChaPaRi** — 모바일 물품 회수 로봇 | STM32 4WD 차량 + 5축 로봇팔, 스마트폰 원격 제어 | 주행 제어 · 로봇팔 서보 제어 · 하드웨어/전원 설계 | [mobile-retrieval-robot](https://github.com/sditr0414/mobile-retrieval-robot) |
+| **Safe Eye** — On-Device AI 안전 감지 | Raspberry Pi 5에서 PPE 미착용·위험구역 접근 실시간 감지 | PPE MLC 모델 설계·학습 · 위험구역 감지 시스템 | [safe-eye](https://github.com/micoleb3/safe-eye) |
+| **PLC 분류 적재·배출 자동화** | 금속/비금속 판별 → 층별 적재 → 배출 | 래더 로직 · 서보 위치결정 · HMI · 안전 설계 | — |
 
 ## Tech Stack
 
-`STM32` `ROS 2` `PLC` `C` `C++` `Python` `Linux`
+`STM32` `C` `HAL` `FreeRTOS` `Python` `YOLO11` `MobileNetV3` `TFLite` `ROS 2` `Mitsubishi PLC` `GX Works2` `GT Designer3`
 
-## Local Preview
+---
+
+<details>
+<summary>이 저장소 구조 · 로컬 실행</summary>
+
+```text
+index.html    사이트 본문
+style.css     레이아웃 · 컴포넌트
+themes.css    색상 토큰 · 다크/인쇄 테마
+app.js        네비게이션 · 이메일 복사 · 로컬 테마 비교
+assets/       프로젝트 이미지 · 프로필 · QR
+preview.py    로컬 프리뷰 서버 (자동 새로고침)
+```
 
 ```bash
 python3 preview.py
 # http://127.0.0.1:4174/
 ```
 
-## Branch Workflow
-
-```text
-dev
- ↓
-Pull Request
- ↓
-main
- ↓
-GitHub Pages
-```
-
-## Files
-
-```text
-index.html    사이트 본문
-style.css     레이아웃 · 컴포넌트
-themes.css    색상 토큰 · 테마 · 인쇄
-app.js        네비/복사/로컬 테마 비교
-assets/       이미지 · QR 등
-preview.py    로컬 프리뷰 서버(자동 새로고침)
-```
-
-> README = 저장소 설명 / Portfolio Website = 실제 상세 콘텐츠. 역할을 분리한다.
+</details>
