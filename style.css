@@ -263,3 +263,12 @@ strong { color: var(--ink); font-weight: 600; }
   .proj__fig { grid-template-columns: 1fr 1fr; }
   a { text-decoration: none; }
 }
+
+/* ─── project video ──────────────────────────────────── */
+.proj__video { margin: 26px 0 0; }
+.proj__video video {
+  display: block; width: 100%; aspect-ratio: 1280 / 660;
+  border: 1px solid var(--line); border-radius: 8px; background: #000;
+}
+.proj__video figcaption { margin-top: 10px; color: var(--muted); font-size: .82rem; text-align: center; }
+@media print { .proj__video video { display: none; } }
