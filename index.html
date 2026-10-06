@@ -78,7 +78,7 @@
           <dl class="facts">
             <div><dt>목표</dt><dd>이동만 가능한 RC카와 작업영역이 좁은 고정 로봇팔을 결합해 “접근→잡기→운반→놓기”를 하나의 로봇으로.</dd></div>
             <div><dt>내 역할</dt><dd>RC카 주행 제어 · 로봇팔 서보 각도 제어 · <strong>하드웨어 설계·전원 회로</strong></dd></div>
-            <div><dt>팀 구성</dt><dd>팀 프로젝트 · 임베디드 제어/하드웨어 파트 담당</dd></div>
+            <div><dt>팀 구성</dt><dd>5인 팀 · RC카·로봇팔 제어 및 하드웨어 파트 담당</dd></div>
           </dl>
         </div>
 
@@ -92,7 +92,7 @@
             </li>
             <li>
               <span class="doing__k">로봇팔</span>
-              PCA9685(I2C) 6채널 50 Hz 서보 PWM으로 MG996R×3 · SG90×3 구동.
+              PCA9685(I2C) 6채널 50 Hz 서보 PWM으로 MG996R · SG90 서보 6개 구동.
               앱 각도(−90~+90°)를 서보 각도로 매핑하는 기초 제어.
             </li>
             <li>
@@ -133,6 +133,14 @@
           </ul>
         </div>
 
+        <div class="proj__block proj__block--quiet">
+          <h4 class="proj__h4">트러블슈팅</h4>
+          <ul class="result">
+            <li><strong>서보 부하 시 떨림</strong> — 손목 회전·그리퍼 서보에 부하가 걸리면 순간적으로 떨림 발생.
+              긴 케이블과 커넥터 저항으로 서보 단자 전압이 순간 강하하는 것이 원인 → 커패시터 적용과 전원 배선 점검으로 해결</li>
+          </ul>
+        </div>
+
         <div class="proj__note">
           <span class="proj__note-k">협업 범위</span>
           Yaw PID(직진 안정화) · 서보 3점 보정 · S-curve · 티칭 시스템 · Flutter 앱 ·
@@ -153,7 +161,7 @@
 
         <div class="proj__links">
           <a href="https://github.com/sditr0414/mobile-retrieval-robot">GitHub에서 코드 보기 ↗</a>
-          <a href="{{발표자료 링크}}">발표자료 ↗</a>
+          <a href="assets/docs/chapari-presentation.pdf">발표자료 (PDF) ↗</a>
         </div>
       </article>
 
@@ -223,7 +231,7 @@
 
         <div class="proj__links">
           <a href="https://github.com/micoleb3/safe-eye">GitHub에서 코드 보기 ↗</a>
-          <a href="{{보고서 링크}}">결과보고서 ↗</a>
+          <a href="assets/docs/safeeye-report.pdf">결과보고서 (PDF) ↗</a>
         </div>
       </article>
 
@@ -259,6 +267,38 @@
           </ul>
         </div>
 
+        <figure class="proj__fig proj__fig--wide">
+          <img src="assets/plc-flow.png" alt="PLC 동작 플로우차트 — 서보 원점 확립, 공급·분배 실린더, 컨베이어, 금속/비금속 판별, 창고 실린더, 서보 이동·흡착, 층별 적재, 3개 초과 시 배출" loading="lazy" />
+          <figcaption>동작 플로우차트 — 원점 확립 → 공급·분배 → 금속/비금속 판별 → 서보 흡착·층별 적재 (3개 초과 시 배출)</figcaption>
+        </figure>
+
+        <figure class="proj__fig">
+          <img src="assets/plc-hmi-1.jpg" alt="GOT2000 HMI 화면 1 — 동작 램프, 창고 층별 적재 램프, 작업 수량, 서보 상태" loading="lazy" />
+          <img src="assets/plc-hmi-2.jpg" alt="GOT2000 HMI 화면 2 — 원점 복귀, JOG 상승·하강, 비상정지, 동작·배출 버튼" loading="lazy" />
+          <figcaption>GT Designer3로 만든 HMI — 상태·적재 현황 모니터링 / 원점 복귀·JOG·비상정지·배출 조작</figcaption>
+        </figure>
+
+        <div class="proj__video proj__video--trio">
+          <figure>
+            <video controls preload="none" playsinline muted width="1280" height="720" poster="assets/plc-store.jpg">
+              <source src="assets/plc-store.mp4" type="video/mp4" />
+            </video>
+            <figcaption>소재 판별·적재 (63초)</figcaption>
+          </figure>
+          <figure>
+            <video controls preload="none" playsinline muted width="1280" height="720" poster="assets/plc-discharge.jpg">
+              <source src="assets/plc-discharge.mp4" type="video/mp4" />
+            </video>
+            <figcaption>소재 배출 (33초)</figcaption>
+          </figure>
+          <figure>
+            <video controls preload="none" playsinline muted width="1280" height="720" poster="assets/plc-estop.jpg">
+              <source src="assets/plc-estop.mp4" type="video/mp4" />
+            </video>
+            <figcaption>비상 정지 (11초)</figcaption>
+          </figure>
+        </div>
+
         <div class="proj__block proj__block--quiet">
           <h4 class="proj__h4">트러블슈팅</h4>
           <ul class="result">
@@ -273,6 +313,10 @@
             <li>재료 판별·적재·배출 전 공정 자동 동작, 비상정지 확인</li>
             <li>현장 인수인계용 One-paper 유지보수 매뉴얼 작성 (초기화 순서 정리)</li>
           </ul>
+        </div>
+
+        <div class="proj__links">
+          <a href="assets/docs/plc-presentation.pdf">발표자료 (PDF) ↗</a>
         </div>
       </article>
     </section>
