@@ -209,6 +209,10 @@ strong { color: var(--ink); font-weight: 600; }
 .timeline h3 { margin: 0 0 6px; font-size: 1.1rem; font-weight: 600; }
 .timeline p { margin: 0; color: var(--muted); font-size: .94rem; }
 .timeline__todo { opacity: .7; }
+.timeline__sub { list-style: none; margin: 12px 0 0; padding: 0 0 0 14px; border-left: 2px solid var(--line); display: grid; gap: 6px; }
+.timeline .timeline__sub li { display: grid; grid-template-columns: 150px 1fr; gap: 12px; padding: 0; border: 0; color: var(--ink); font-size: .92rem; }
+.timeline__sub span { color: var(--muted); font-family: "IBM Plex Mono", monospace; font-size: .8rem; padding-top: 2px; }
+@media (max-width: 620px) { .timeline .timeline__sub li { grid-template-columns: 1fr; gap: 0; } }
 
 /* ─── contact ────────────────────────────────────────── */
 .contact { display: flex; flex-wrap: wrap; gap: 40px; align-items: flex-start; justify-content: space-between; }
@@ -252,15 +256,41 @@ strong { color: var(--ink); font-weight: 600; }
 }
 
 /* ─── print / PDF (light) ────────────────────────────── */
+.proj__poster { display: none; }
+@page { size: A4; margin: 14mm 13mm; }
 @media print {
-  body { font-size: 10.5pt; line-height: 1.45; }
+  html, body { width: auto !important; background: #fff !important; }
+  body { font-size: 10pt; line-height: 1.5; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   .nav, .theme-switch, .hero__cta, .foot__mono, .nav__brand-mark, .proj__stub-msg { display: none !important; }
   .proj--stub { display: none !important; }
   .section, .hero { max-width: none; padding-inline: 0; }
   .hero { padding-top: 0; }
   .hero__title { font-size: 24pt; }
-  .proj, .skill, .contact__qr, .readout { break-inside: avoid; }
-  .proj__fig { grid-template-columns: 1fr 1fr; }
+  .section { padding-top: 22px; }
+  .section--contact { padding-bottom: 0; }
+  .section__head { margin-bottom: 16px; }
+  img, figure, video { max-width: 100% !important; }
+
+  /* 프로젝트 카드: 한 장보다 길어서 통째로 묶으면 잘림 → 카드마다 새 페이지에서 시작, 내부 블록 단위로만 끊김 방지 */
+  .proj { break-inside: auto; border: 0; border-radius: 0; padding: 0; margin: 0; }
+  .proj + .proj { break-before: page; }
+  .proj__tag { break-after: avoid; }
+  .proj__title, .proj__h4, .section__head { break-after: avoid; }
+  .facts > div, .doing li, .result li, .chain, .chain li, .proj__note, .proj__fig, .proj__video figure,
+  .proj__block--quiet, .skill, .timeline li, .contact__qr, .readout, .proj__links { break-inside: avoid; }
+  .proj__fig img { max-height: 108mm; width: auto; max-width: 100%; margin-inline: auto; object-fit: contain; }
+  .proj__fig--wide img { max-height: 150mm; }
+
+  /* 영상은 인쇄 불가 → 대표 프레임 이미지로 대체 */
+  .proj__video video { display: none !important; }
+  .proj__poster { display: block; width: 100%; height: auto; border: 1px solid var(--line); border-radius: 6px; }
+  .proj__video--pair, .proj__video--trio { display: grid !important; gap: 10px; }
+  .proj__video--pair { grid-template-columns: 1fr 1fr; }
+  .proj__video--trio { grid-template-columns: repeat(3, 1fr); }
+  .proj__video figcaption { font-size: 8.5pt; margin-top: 5px; }
+
+  #skills, #about { break-before: page; }
+  .foot { display: none !important; }
   a { text-decoration: none; }
 }
 
@@ -279,7 +309,6 @@ strong { color: var(--ink); font-weight: 600; }
   .proj__video--trio { grid-template-columns: repeat(3, 1fr); }
 }
 .proj__fig--wide { grid-template-columns: 1fr !important; }
-@media print { .proj__video video, .proj__video--pair, .proj__video--trio { display: none; } }
 
 /* ─── in-progress pill ───────────────────────────────── */
 .proj__live {
