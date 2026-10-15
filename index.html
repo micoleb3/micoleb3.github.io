@@ -59,10 +59,116 @@
         </div>
       </div>
 
-      <!-- PROJECT 01 : ChaPaRi ───────────────────────── -->
+      <!-- PROJECT 01 : Smart-farm transport robot ───── -->
+      <article class="proj" id="project-transport">
+        <div class="proj__tag">
+          <span class="proj__badge">PROJECT 01 / AUTONOMOUS MOBILE ROBOT</span>
+          <span class="proj__live"><span class="dot"></span>진행 중</span>
+          <div class="proj__chips">
+            <span>ROS 2 Jazzy</span><span>Nav2</span><span>Python · rclpy</span>
+            <span>ArUco</span><span>LiDAR</span><span>TurtleBot3</span>
+          </div>
+        </div>
+
+        <h3 class="proj__title">스마트팜 운송로봇 — 주행 · 정밀 도킹</h3>
+        <p class="proj__tagline">
+          예찰 → 수확 → 운송 → 선별로 이어지는 스마트팜 다중 로봇 시스템에서,
+          수확로봇에게 파프리카 바구니를 받아 선별장까지 옮기는 운송로봇을 맡고 있습니다.
+        </p>
+
+        <div class="proj__grid">
+          <dl class="facts">
+            <div><dt>목표</dt><dd>관제의 ROS 2 Action 명령(픽업 · 하역 · 복귀)을 받아 수확로봇 · 선별장 · 주차장에 cm 단위로 도킹.</dd></div>
+            <div><dt>내 역할</dt><dd><strong>운송로봇 파트 전담</strong> — 요구사항 · FSM 설계, 주행 · 정밀 도킹 SW, 적재 기구 제작, 전장 · 펌웨어 설계</dd></div>
+            <div><dt>팀 구성</dt><dd>7인 팀 · KDT 로봇 3기 최종 프로젝트 · 2026.09 ~ 진행 중</dd></div>
+            <div><dt>플랫폼</dt><dd>TurtleBot3 Waffle Pi (Raspberry Pi 4, OpenCR 1.0, LDS-03 LiDAR, Pi 카메라)</dd></div>
+          </dl>
+        </div>
+
+        <div class="proj__block proj__block--quiet">
+          <h4 class="proj__h4">핵심 설계 결정</h4>
+          <p class="proj__learn">
+            두 로봇이 각자 지도 좌표로 마주 서면 위치 오차가 합산됩니다(각 ±2 cm → 상대 ±4 cm).
+            그래서 <strong>정지한 수확로봇 차체의 ArUco 마커를 고정 기준</strong>으로 삼아,
+            운송로봇 혼자 상대 위치를 맞추는 구조로 설계했습니다.
+          </p>
+        </div>
+
+        <div class="proj__block">
+          <h4 class="proj__h4">정밀 도킹 노드 dock.py — 직접 개발</h4>
+          <ol class="chain" aria-label="dock.py 도킹 단계">
+            <li><b>FACE</b><span>제자리 회전</span></li>
+            <li><b>SEARCH</b><span>마커 탐색</span></li>
+            <li><b>TRACK</b><span>큰 마커로 접근</span></li>
+            <li><b>FINE</b><span>작은 마커로 접근</span></li>
+            <li><b>ALIGN</b><span>LiDAR 직선 정렬</span></li>
+            <li><b>PUSH</b><span>오도메트리 전진</span></li>
+            <li><b>DONE</b><span>도킹 완료</span></li>
+          </ol>
+          <ul class="doing">
+            <li><span class="doing__k">구조</span>노드 사이 이동은 팀 라우트서버(Nav2 Route Graph), 마지막 수 cm는 dock.py가 담당.
+              20 Hz 타이머 하나가 State별 동작과 전이를 처리하고, UNDOCK은 후방 LiDAR로 장애물을 확인하며 후진.</li>
+            <li><span class="doing__k">마커</span>장소마다 마커 2개 — 큰 마커는 멀리서 방향, 작은 마커는 가까이서 정지 기준.</li>
+            <li><span class="doing__k">설정</span>장소 값을 sites.yaml로 분리(마커 ID · 크기, 정지 거리, LiDAR 목표각).
+              주차장 · 수확로봇 · 선별장을 같은 코드로 처리하고, 값만 바꾸면 노드 재시작 없이 반영.</li>
+          </ul>
+        </div>
+
+        <div class="proj__block">
+          <h4 class="proj__h4">미션 FSM · 배포 · 하드웨어</h4>
+          <ul class="doing">
+            <li><span class="doing__k">FSM</span>정상 9개 State + 전역 ERROR/ESTOP. 수확로봇이 회전하는 동안 범위 밖에서 대기하는 2단계 접근,
+              하나의 PRECISION_ALIGN을 대기 접근 · 최종 도킹 · 이격에 재사용, Nav2와 정밀 제어기의 제어권 단일화,
+              task_id · transfer_id 기반 인계 이벤트 중복 방지.</li>
+            <li><span class="doing__k">배포</span>install.sh 한 번으로 팀원 PC 설치 완료(빌드 · DDS 설정 · SSH 키 · 로봇 설정, 멱등 실행).
+              조작은 <code>wf go 6</code> · <code>wf dock parking</code> 같은 짧은 CLI로 통일.</li>
+            <li><span class="doing__k">기구</span>300 × 300 × 190 mm 적재 바구니 — 서보 + 랙·피니언 양개 덮개, 서보 앞문, 웜기어 DC 틸트.
+              틸트 최악 하중 약 6.6 N·m를 계산해 MG996R(약 1 N·m) 대신 자기잠김 웜기어 모터 선정. 구매품 19종을 출력용 10조각으로 재설계해 조립 완료.</li>
+            <li><span class="doing__k">전장</span>3S LiPo → L298N · DC-DC 5V 전원 분기, 공통 GND · 분기부 퓨즈.
+              OpenCR 핀을 소스 기준으로 검증해 주행 펌웨어와 충돌 없는 핀 배정(설계 완료, 펌웨어 구현 예정).</li>
+          </ul>
+        </div>
+
+        <div class="proj__block">
+          <h4 class="proj__h4">진행 현황</h4>
+          <ul class="result">
+            <li><strong>주차장 도킹 완성</strong> · 수확로봇 · 선별장 도킹은 코드 준비 완료, 현장 티칭 진행 중</li>
+            <li>적재 바구니 조립 완료 · 액추에이터 펌웨어와 팀 통신 프로토콜 구현 예정</li>
+            <li>반복 도킹 성공률 · 정지 오차는 측정 후 추가 예정</li>
+          </ul>
+        </div>
+
+        <div class="proj__block proj__block--quiet">
+          <h4 class="proj__h4">트러블슈팅</h4>
+          <ul class="result">
+            <li><strong>PC · 로봇 통신 실패</strong> — 공유기가 멀티캐스트를 막아 DDS 자동 탐색 실패 → Fast DDS 유니캐스트 + IP 직접 지정</li>
+            <li><strong>Pi 4 과부하로 주행 끊김</strong> — voxel layer 제거, 카메라는 도킹할 때만 켜고, RANSAC은 정렬 단계에서만 실행</li>
+            <li><strong>관제 명령 거절</strong> — 로봇 · PC 시계 차이로 TF 시간 불일치 → 기동 시 로봇 시계를 PC에 동기화</li>
+            <li><strong>도킹 각도 편향</strong> — 카메라가 약 8° 틀어져 장착 → 최종 yaw 보정, 가능한 장소는 LiDAR 정렬로 대체</li>
+            <li><strong>선별장 이전 후 새 맵</strong> — 기존 맵과 정합해 좌표계 차이 1.5 cm · 0.2° 이내 확인, 장애물과 겹치는 경로 노드 2개를 찾아 배포 보류</li>
+          </ul>
+        </div>
+
+        <div class="proj__note">
+          <span class="proj__note-k">협업 범위</span>
+          관제 · 라우트서버(Nav2 Route Graph) · robot_agent는 팀 코드입니다. 팀 코드는 수정하지 않고(Waffle 설정 2줄만 변경)
+          그 위에 도킹 노드를 얹었고, 팀 저장소 전수 리뷰로 로봇 ID · 지도 ID · ROS 도메인 불일치 등을 통합 전에 찾아 공유했습니다.
+        </div>
+
+        <div class="proj__block proj__block--quiet">
+          <h4 class="proj__h4">배운 점</h4>
+          <p class="proj__learn">
+            정밀 위치 맞춤은 지도 좌표보다 상대 기준이 낫습니다. 오차가 합산되지 않는 구조를 먼저 설계하는 것이 튜닝보다 효과가 컸습니다.
+            임베디드 보드에서는 기능을 넣는 것만큼 빼는 것이 중요해, Pi 4에서는 필요한 순간에만 켜는 설계로 부하를 풀었습니다.
+            그리고 팀 통합은 코드보다 이름과 약속에서 깨진다는 것 — ID · 도메인 · 지도 ID를 문서와 코드에서 대조하는 작업이 통합 일정을 지켰습니다.
+          </p>
+        </div>
+      </article>
+
+      <!-- PROJECT 02 : ChaPaRi ───────────────────────── -->
       <article class="proj" id="project-chapari">
         <div class="proj__tag">
-          <span class="proj__badge">PROJECT 01 / EMBEDDED ROBOT</span>
+          <span class="proj__badge">PROJECT 02 / EMBEDDED ROBOT</span>
           <div class="proj__chips">
             <span>STM32F411</span><span>C · HAL</span><span>L298N 4WD</span>
             <span>PCA9685</span><span>하드웨어 설계</span>
@@ -166,10 +272,10 @@
         </div>
       </article>
 
-      <!-- PROJECT 02 : Safe Eye ──────────────────────── -->
+      <!-- PROJECT 03 : Safe Eye ──────────────────────── -->
       <article class="proj" id="project-safeeye">
         <div class="proj__tag">
-          <span class="proj__badge">PROJECT 02 / ON-DEVICE AI · SAFETY</span>
+          <span class="proj__badge">PROJECT 03 / ON-DEVICE AI · SAFETY</span>
           <div class="proj__chips">
             <span>Raspberry Pi 5</span><span>YOLO11</span><span>MobileNetV3</span>
             <span>Python</span><span>멀티라벨 분류</span>
@@ -236,10 +342,10 @@
         </div>
       </article>
 
-      <!-- PROJECT 03 : PLC ────────────────────────────── -->
+      <!-- PROJECT 04 : PLC ────────────────────────────── -->
       <article class="proj" id="project-plc">
         <div class="proj__tag">
-          <span class="proj__badge">PROJECT 03 / PLC · FACTORY AUTOMATION</span>
+          <span class="proj__badge">PROJECT 04 / PLC · FACTORY AUTOMATION</span>
           <div class="proj__chips">
             <span>Mitsubishi Q03UDV</span><span>QD77MS2</span><span>GX Works2</span>
             <span>GT Designer3</span><span>서보 위치결정</span>
@@ -335,24 +441,30 @@
       <div class="skills">
         <article class="skill">
           <span class="skill__no">01</span>
+          <h3>로봇 SW · 자율주행</h3>
+          <p class="skill__stack">ROS 2 · Nav2 · Python · OpenCV</p>
+          <p class="skill__desc">ArUco 마커와 LiDAR를 결합한 정밀 도킹 노드, 미션 FSM 설계, DDS 네트워크 · 배포 자동화.</p>
+        </article>
+        <article class="skill">
+          <span class="skill__no">02</span>
           <h3>임베디드 제어</h3>
           <p class="skill__stack">STM32 · C · HAL · FreeRTOS 환경</p>
           <p class="skill__desc">L298N 4WD 차동 구동, PCA9685 서보 각도 제어, TIM PWM 구동을 직접 구현.</p>
         </article>
         <article class="skill">
-          <span class="skill__no">02</span>
+          <span class="skill__no">03</span>
           <h3>하드웨어 설계</h3>
           <p class="skill__stack">전원 회로 · 배선 · 핀 배치</p>
           <p class="skill__desc">전원 분리 구조 설계, 강압·안정화 회로, 공통 GND 결선과 STM32 핀 배치.</p>
         </article>
         <article class="skill">
-          <span class="skill__no">03</span>
+          <span class="skill__no">04</span>
           <h3>AI 비전 · On-Device</h3>
           <p class="skill__stack">YOLO11 · MobileNetV3 · Python</p>
           <p class="skill__desc">멀티라벨 분류 모델 설계·학습, 클래스 불균형 처리, 위험구역 감지 파이프라인 구현.</p>
         </article>
         <article class="skill">
-          <span class="skill__no">04</span>
+          <span class="skill__no">05</span>
           <h3>산업 자동화</h3>
           <p class="skill__stack">PLC · 서보 위치결정 · HMI</p>
           <p class="skill__desc">Mitsubishi PLC 래더, QD77MS2 서보 위치결정, GT Designer3 HMI 구성과 안전 설계.</p>

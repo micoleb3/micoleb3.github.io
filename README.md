@@ -11,13 +11,14 @@ STM32 임베디드 제어, On-Device AI 비전, PLC 산업 자동화 프로젝�
 
 | 프로젝트 | 내용 | 내 역할 | 코드 |
 |---|---|---|---|
+| **스마트팜 운송로봇** (진행 중) | 다중 로봇 시스템의 운송로봇 — Nav2 주행 + ArUco·LiDAR 정밀 도킹 | 운송로봇 파트 전담 (FSM 설계 · 도킹 SW · 적재 기구 · 전장) | — |
 | **ChaPaRi** — 모바일 물품 회수 로봇 | STM32 4WD 차량 + 5축 로봇팔, 스마트폰 원격 제어 | 주행 제어 · 로봇팔 서보 제어 · 하드웨어/전원 설계 | [mobile-retrieval-robot](https://github.com/sditr0414/mobile-retrieval-robot) |
 | **Safe Eye** — On-Device AI 안전 감지 | Raspberry Pi 5에서 PPE 미착용·위험구역 접근 실시간 감지 | PPE MLC 모델 설계·학습 · 위험구역 감지 시스템 | [safe-eye](https://github.com/micoleb3/safe-eye) |
 | **PLC 분류 적재·배출 자동화** | 금속/비금속 판별 → 층별 적재 → 배출 | 래더 로직 · 서보 위치결정 · HMI · 안전 설계 | — |
 
 ## Tech Stack
 
-`STM32` `C` `HAL` `FreeRTOS` `Python` `YOLO11` `MobileNetV3` `TFLite` `ROS 2` `Mitsubishi PLC` `GX Works2` `GT Designer3`
+`ROS 2` `Nav2` `OpenCV` `STM32` `C` `HAL` `FreeRTOS` `Python` `YOLO11` `MobileNetV3` `TFLite` `Mitsubishi PLC` `GX Works2` `GT Designer3`
 
 ---
 
