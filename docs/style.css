@@ -356,3 +356,12 @@ code {
   padding: 1px 5px; border-radius: 4px; background: var(--paper-2); border: 1px solid var(--line); color: var(--ink);
 }
 @media print { .proj__live .dot { animation: none; } .chain li { background: none; } }
+
+/* ─── 3-up figure (ManyFarm) ─────────────────────────── */
+.proj__fig--trio img { aspect-ratio: 4 / 5; object-fit: cover; width: 100%; height: auto; }
+@media (min-width: 720px) { .proj__fig--trio { grid-template-columns: 1fr 1fr 1fr; } }
+@media print {
+  .proj__fig--trio { grid-template-columns: 1fr 1fr 1fr !important; }
+  .proj__fig--trio img { max-height: 62mm; width: 100%; object-fit: cover; }
+}
+@media print { .proj__fig--wiring img { max-height: 100mm; } }

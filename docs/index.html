@@ -63,104 +63,123 @@
       <article class="proj" id="project-transport">
         <div class="proj__tag">
           <span class="proj__badge">PROJECT 01 / AUTONOMOUS MOBILE ROBOT</span>
-          <span class="proj__live"><span class="dot"></span>진행 중</span>
+          <span class="proj__live"><span class="dot"></span>통합 시험 단계</span>
           <div class="proj__chips">
             <span>ROS 2 Jazzy</span><span>Nav2</span><span>Python · rclpy</span>
-            <span>ArUco</span><span>LiDAR</span><span>TurtleBot3</span>
+            <span>ArUco · LiDAR</span><span>OpenCR · Arduino C++</span><span>TurtleBot3</span>
           </div>
         </div>
 
-        <h3 class="proj__title">스마트팜 운송로봇 — 주행 · 정밀 도킹</h3>
+        <h3 class="proj__title">스마트팜 운송로봇 — 주행 · 정밀 도킹 · 바구니 구동부</h3>
         <p class="proj__tagline">
-          예찰 → 수확 → 운송 → 선별로 이어지는 스마트팜 다중 로봇 시스템에서,
-          수확로봇에게 파프리카 바구니를 받아 선별장까지 옮기는 운송로봇을 맡고 있습니다.
+          예찰 → 수확 → 운송 → 선별로 이어지는 스마트팜 다중 로봇 시스템(ManyFarm)에서,
+          수확로봇에게 파프리카를 받아 선별장까지 옮겨 쏟는 운송로봇 transport_01을 맡았습니다.
         </p>
 
         <div class="proj__grid">
           <dl class="facts">
-            <div><dt>목표</dt><dd>관제의 ROS 2 Action 명령(픽업 · 하역 · 복귀)을 받아 수확로봇 · 선별장 · 주차장에 cm 단위로 도킹.</dd></div>
-            <div><dt>내 역할</dt><dd><strong>운송로봇 파트 전담</strong> — 요구사항 · FSM 설계, 주행 · 정밀 도킹 SW, 적재 기구 제작, 전장 · 펌웨어 설계</dd></div>
-            <div><dt>팀 구성</dt><dd>7인 팀 · KDT 로봇 3기 최종 프로젝트 · 2026.09 ~ 진행 중</dd></div>
-            <div><dt>플랫폼</dt><dd>TurtleBot3 Waffle Pi (Raspberry Pi 4, OpenCR 1.0, LDS-03 LiDAR, Pi 카메라)</dd></div>
+            <div><dt>목표</dt><dd>운송로봇 한 대가 <strong>주행 → 정밀 도킹 → 받기 · 쏟기</strong>까지 실물에서 동작하게 만들기.</dd></div>
+            <div><dt>내 역할</dt><dd>운송로봇 공동 담당 —
+              <strong>9/10–10/12 주행 · 정밀 도킹</strong>(요구사항 · FSM 설계, Nav2 주행, ArUco + LiDAR 도킹, 팀 라우트서버 연동) ·
+              <strong>10/13~ 바구니 구동부</strong>(기구 제작, 전원 · 배선, OpenCR 펌웨어, ROS 2 브리지 노드, URDF 실물 반영)</dd></div>
+            <div><dt>팀 구성</dt><dd>7인 팀 · KDT 로봇 3기 최종 프로젝트 · 2026.09 ~ 2026.11 · 10/14 이후 주행 · 도킹은 팀원이 이어받음</dd></div>
+            <div><dt>플랫폼</dt><dd>TurtleBot3 Waffle Pi (Raspberry Pi 4, OpenCR 1.0, LiDAR, Pi 카메라 V2) + 직접 만든 적재 바구니</dd></div>
           </dl>
         </div>
 
-        <div class="proj__block proj__block--quiet">
-          <h4 class="proj__h4">핵심 설계 결정</h4>
-          <p class="proj__learn">
-            두 로봇이 각자 지도 좌표로 마주 서면 위치 오차가 합산됩니다(각 ±2 cm → 상대 ±4 cm).
-            그래서 <strong>정지한 수확로봇 차체의 ArUco 마커를 고정 기준</strong>으로 삼아,
-            운송로봇 혼자 상대 위치를 맞추는 구조로 설계했습니다.
-          </p>
-        </div>
+        <figure class="proj__fig proj__fig--trio">
+          <img src="assets/manyfarm-real.jpg" alt="운송로봇 실물 — TurtleBot3 위에 적재 바구니와 지지 기둥 16개" />
+          <img src="assets/manyfarm-cad-receive.jpg" alt="실측 반영 모델 — 윗덮개를 열어 수확물을 받는 상태" />
+          <img src="assets/manyfarm-cad-dump.jpg" alt="실측 반영 모델 — 앞문을 열고 바구니를 기울여 쏟는 상태" />
+          <figcaption>실물 (10/23) · 받기 (윗덮개 열림) · 쏟기 (앞문 열고 틸트) — 오른쪽 두 장은 실측값을 반영한 모델</figcaption>
+        </figure>
 
         <div class="proj__block">
-          <h4 class="proj__h4">정밀 도킹 노드 dock.py — 직접 개발</h4>
+          <h4 class="proj__h4">A. 주행 · 정밀 도킹 (9/10 – 10/12)</h4>
           <ol class="chain" aria-label="dock.py 도킹 단계">
-            <li><b>FACE</b><span>제자리 회전</span></li>
-            <li><b>SEARCH</b><span>마커 탐색</span></li>
-            <li><b>TRACK</b><span>큰 마커로 접근</span></li>
-            <li><b>FINE</b><span>작은 마커로 접근</span></li>
-            <li><b>ALIGN</b><span>LiDAR 직선 정렬</span></li>
-            <li><b>PUSH</b><span>오도메트리 전진</span></li>
-            <li><b>DONE</b><span>도킹 완료</span></li>
+            <li><b>SEARCH</b><span>회전하며 마커 탐색</span></li>
+            <li><b>TRACK</b><span>먼 마커로 접근</span></li>
+            <li><b>FINE</b><span>가까운 마커로 정지</span></li>
+            <li><b>ALIGN</b><span>LiDAR 면 정렬</span></li>
+            <li><b>PUSH · DONE</b><span>짧게 직진 후 완료</span></li>
           </ol>
           <ul class="doing">
-            <li><span class="doing__k">구조</span><span>노드 사이 이동은 팀 라우트서버(Nav2 Route Graph), 마지막 수 cm는 dock.py가 담당.
-              20 Hz 타이머 하나가 State별 동작과 전이를 처리하고, UNDOCK은 후방 LiDAR로 장애물을 확인하며 후진.</span></li>
-            <li><span class="doing__k">마커</span><span>장소마다 마커 2개 — 큰 마커는 멀리서 방향, 작은 마커는 가까이서 정지 기준.</span></li>
-            <li><span class="doing__k">설정</span><span>장소 값을 sites.yaml로 분리(마커 ID · 크기, 정지 거리, LiDAR 목표각).
-              주차장 · 수확로봇 · 선별장을 같은 코드로 처리하고, 값만 바꾸면 노드 재시작 없이 반영.</span></li>
+            <li><span class="doing__k">설계</span><span>요구사항 · 기능 · 비기능 · 인터페이스 · 개발 단계 · State 설계 문서 6종 작성.
+              미션 FSM은 정상 9개 State + 전역 ERROR/ESTOP, Nav2와 정밀 제어기의 제어권을 하나로.</span></li>
+            <li><span class="doing__k">주행</span><span>폐쇄망 TurtleBot3를 실물에서 달리게 만듦 — 시계 동기화, 바구니 기둥을 지우는 LiDAR 필터,
+              최대 속도 0.13 m/s 제한. SD 카드 무인 설치 스크립트(13단계, 이미 된 단계는 건너뜀).</span></li>
+            <li><span class="doing__k">인식</span><span>Pi 카메라(IMX219) 1280×720 캘리브레이션, 마커 크기별 인식 거리 실측
+              (10 cm 마커 0.3–2 m). 근거리에서 마커가 화면을 넘치는 한계 때문에 장소마다 마커 2개 — 먼 마커로 방향, 가까운 마커로 정지.</span></li>
+            <li><span class="doing__k">도킹</span><span>dock.py 하나로 주차장 · 수확로봇 · 선별장을 처리하고 장소 값은 sites.yaml로 분리.
+              마지막 각도는 카메라 대신 LiDAR로 정면 면의 기울기를 재서 맞추고, 정렬 후 직진 · 후진 이탈(UNDOCK)까지.</span></li>
+            <li><span class="doing__k">검증</span><span>실물 1회차 실패(접근 중 마커 놓침)를 분석한 뒤, 가상 카메라(투영 + 노이즈 + 지연 + 바퀴 편차) 폐루프
+              시뮬레이터를 만들어 시작 위치 7종으로 반복 검증하고 재설계.</span></li>
+            <li><span class="doing__k">연동</span><span>팀 라우트서버(수정 없이 사용) 위에 운영 스크립트(<code>wf</code> 이동 · 도킹 · 이탈) 작성,
+              DDS IP 직접 지정, Pi 4 부하 감소. 10/9 설치 스크립트 포함 인수인계 패키지로 전달.</span></li>
           </ul>
         </div>
 
         <div class="proj__block">
-          <h4 class="proj__h4">미션 FSM · 배포 · 하드웨어</h4>
+          <h4 class="proj__h4">B. 바구니 구동부 (10/13 ~) — 받기 · 운반 · 쏟기</h4>
           <ul class="doing">
-            <li><span class="doing__k">FSM</span><span>정상 9개 State + 전역 ERROR/ESTOP. 수확로봇이 회전하는 동안 범위 밖에서 대기하는 2단계 접근,
-              하나의 PRECISION_ALIGN을 대기 접근 · 최종 도킹 · 이격에 재사용, Nav2와 정밀 제어기의 제어권 단일화,
-              task_id · transfer_id 기반 인계 이벤트 중복 방지.</span></li>
-            <li><span class="doing__k">배포</span><span>install.sh 한 번으로 팀원 PC 설치 완료(빌드 · DDS 설정 · SSH 키 · 로봇 설정, 멱등 실행).
-              조작은 <code>wf go 6</code> · <code>wf dock parking</code> 같은 짧은 CLI로 통일.</span></li>
-            <li><span class="doing__k">기구</span><span>300 × 300 × 190 mm 적재 바구니 — 서보 + 랙·피니언 양개 덮개, 서보 앞문, 웜기어 DC 틸트.
-              틸트 최악 하중 약 6.6 N·m를 계산해 MG996R(약 1 N·m) 대신 자기잠김 웜기어 모터 선정. 구매품 19종을 출력용 10조각으로 재설계해 조립 완료.</span></li>
-            <li><span class="doing__k">전장</span><span>3S LiPo → L298N · DC-DC 5V 전원 분기, 공통 GND · 분기부 퓨즈.
-              OpenCR 핀을 소스 기준으로 검증해 주행 펌웨어와 충돌 없는 핀 배정(설계 완료, 펌웨어 구현 예정).</span></li>
+            <li><span class="doing__k">기구</span><span>팀 CAD를 바탕으로 출력 부품을 19 → 10개로 합치고, 축 구멍을 Ø8.4로 키워 미끄럼 베어링 역할.
+              윗덮개(랙 · 피니언 슬라이드) · 앞문 · 틸트 3개 구동부 조립. 틸트 모터 배송 지연 → 같은 배선으로 12V 리니어 액추에이터로 교체.</span></li>
+            <li><span class="doing__k">전원</span><span>기구 전용 배터리를 분리해 서보 · 리니어 전류가 OpenCR · 라즈베리파이 전원을 흔들지 않게 설계.
+              DC-DC 5V, L298N, GND 한 점 공통, 로커 스위치로 기구 전원만 차단. 배선도 v1 → v3, 전선 라벨 체계.</span></li>
+            <li><span class="doing__k">펌웨어</span><span>TB3 순정 주행 펌웨어 위에 액추에이터 모듈을 얹은 <strong>통합 펌웨어</strong> — OpenCR 한 장으로 주행 + 기구.
+              <code>delay()</code> 없는 millis 상태머신, USB는 주행이 쓰고 기구 명령은 UART로 분리,
+              회신 규칙 OK(접수) · DONE(완료) · STOPPED · ERR · READY.</span></li>
+            <li><span class="doing__k">제어</span><span>서보가 360° 연속회전형으로 확인돼 위치 대신 시간 제어로 전환. 덮개는 문틀에 끼어
+              전진 0.1 s / 후진 0.05 s 끊어치기, 틸트는 내림을 1 s 길게 잡아 매번 바닥 리미트로 기준점 복귀. 동작마다 시간 상한 + 강제 정지.</span></li>
+            <li><span class="doing__k">ROS 2</span><span>브리지 노드 <code>transport_device_bridge</code> — 서비스 6개
+              (<code>lid_open/close</code> · <code>gate_open/close</code> · <code>unload</code> · <code>stop</code>), 동작이 끝나야 응답.
+              실패 시 stop 후 이유와 함께 실패 반환. 운송 노드는 서비스 호출만 하면 됨.</span></li>
+            <li><span class="doing__k">모델</span><span>틸트 · 앞문 각도, 경첩 높이, 카메라 위치(9° 틀어짐) 등을 실측해
+              실물 반영 URDF 작성 — 기둥이 LiDAR를 가리는 것까지 시뮬레이션에서 재현하기 위함.</span></li>
           </ul>
         </div>
 
+        <figure class="proj__fig proj__fig--wide proj__fig--wiring">
+          <img src="assets/manyfarm-wiring.jpg" alt="운송로봇 액추에이터 배선도 v3 — OpenCR, L298N, DC-DC, 서보 2개, 리니어, 라즈베리파이 UART" />
+          <figcaption>운송로봇 액추에이터 배선도 v3 (10/22, 리니어 반영) — 기구 전원 분리 · OpenCR 핀 배정 · UART</figcaption>
+        </figure>
+
         <div class="proj__block">
-          <h4 class="proj__h4">진행 현황</h4>
+          <h4 class="proj__h4">검증 · 결과</h4>
           <ul class="result">
-            <li><strong>주차장 도킹 완성</strong> · 수확로봇 · 선별장 도킹은 코드 준비 완료, 현장 티칭 진행 중</li>
-            <li>적재 바구니 조립 완료 · 액추에이터 펌웨어와 팀 통신 프로토콜 구현 예정</li>
-            <li>반복 도킹 성공률 · 정지 오차는 측정 후 추가 예정</li>
+            <li><strong>기구가 움직이는 동안에도 주행 통신 유지</strong> — 약 68초 동작 중 /odom 평균 20.0 Hz, 최대 간격 0.064 s (실물, 10/23)</li>
+            <li>덮개 · 앞문 <strong>5회 반복 완전 개폐</strong>, 비상 정지 즉시 정지, 내용물 넣고 적재 쏟기 통과 (실물)</li>
+            <li>브리지 노드 사전 시험 16/16, 로봇에서 실제 서비스 호출 통과</li>
+            <li>폐쇄망 Nav2 주행, 주차장 도킹 동작 확인 (실물)</li>
+            <li>도킹 정밀도는 <strong>오프라인 시뮬레이터 값</strong> — 선별장 좌우 ±1.4 cm, 수확로봇 ±0.6 cm. 실물 반복 성공률은 측정하지 않아 쓰지 않음</li>
           </ul>
         </div>
+
 
         <div class="proj__block proj__block--quiet">
           <h4 class="proj__h4">트러블슈팅</h4>
           <ul class="result">
-            <li><strong>PC · 로봇 통신 실패</strong> — 공유기가 멀티캐스트를 막아 DDS 자동 탐색 실패 → Fast DDS 유니캐스트 + IP 직접 지정</li>
-            <li><strong>Pi 4 과부하로 주행 끊김</strong> — voxel layer 제거, 카메라는 도킹할 때만 켜고, RANSAC은 정렬 단계에서만 실행</li>
-            <li><strong>관제 명령 거절</strong> — 로봇 · PC 시계 차이로 TF 시간 불일치 → 기동 시 로봇 시계를 PC에 동기화</li>
-            <li><strong>도킹 각도 편향</strong> — 카메라가 약 8° 틀어져 장착 → 최종 yaw 보정, 가능한 장소는 LiDAR 정렬로 대체</li>
-            <li><strong>선별장 이전 후 새 맵</strong> — 기존 맵과 정합해 좌표계 차이 1.5 cm · 0.2° 이내 확인, 장애물과 겹치는 경로 노드 2개를 찾아 배포 보류</li>
+            <li><strong>Nav2가 목표를 거절</strong> — 폐쇄망이라 로봇 시계가 부팅마다 약 20일 틀어져 TF 시각 무효 → PC를 시간 서버로, bringup에 시계 동기화</li>
+            <li><strong>도킹 각도 오차</strong> — 마커만 보면 시뮬레이션에서도 최대 ±11°, 카메라도 약 8° 틀어져 장착 → 마지막 각도는 LiDAR 면 정렬로 분리</li>
+            <li><strong>서보가 멈추지 않음</strong> — 라벨로 구분 안 되는 360° 연속회전형 → 손으로 돌려 확인 후 시간 제어 펌웨어로 변경</li>
+            <li><strong>UART 무반응 · 업로드 CRC Fail</strong> — 라즈베리파이 시리얼 콘솔이 포트 점유 → 해제. 업로드 실패는 순정 업로더로 보드부터 확인 후 1.5 KB 줄여 해결</li>
+            <li><strong>바구니 기둥이 장애물로 잡힘</strong> — 0.20 m 미만 점 제거 필터, AMCL · costmap · 충돌 감시를 같은 토픽으로 통일</li>
+            <li><strong>PC · 로봇 통신 실패</strong> — 공유기가 멀티캐스트 차단 → Fast DDS에 IP 직접 지정</li>
           </ul>
         </div>
 
         <div class="proj__note">
           <span class="proj__note-k">협업 범위</span>
-          관제 · 라우트서버(Nav2 Route Graph) · robot_agent는 팀 코드입니다. 팀 코드는 수정하지 않고(Waffle 설정 2줄만 변경)
-          그 위에 도킹 노드를 얹었고, 팀 저장소 전수 리뷰로 로봇 ID · 지도 ID · ROS 도메인 불일치 등을 통합 전에 찾아 공유했습니다.
+          관제 · 라우트서버 · Zenoh 연결은 팀 코드이며 수정 없이 그 위에 얹었습니다. 10/14 이후 주행 · 도킹과 FSM 변경은 팀원이 이어받았고,
+          운송 미션 노드 · 관제와의 통합 시험은 팀과 함께 진행 중입니다.
         </div>
 
         <div class="proj__block proj__block--quiet">
           <h4 class="proj__h4">배운 점</h4>
           <p class="proj__learn">
-            정밀 위치 맞춤은 지도 좌표보다 상대 기준이 낫습니다. 오차가 합산되지 않는 구조를 먼저 설계하는 것이 튜닝보다 효과가 컸습니다.
-            임베디드 보드에서는 기능을 넣는 것만큼 빼는 것이 중요해, Pi 4에서는 필요한 순간에만 켜는 설계로 부하를 풀었습니다.
-            그리고 팀 통합은 코드보다 이름과 약속에서 깨진다는 것 — ID · 도메인 · 지도 ID를 문서와 코드에서 대조하는 작업이 통합 일정을 지켰습니다.
+            실물은 시뮬레이션에 없던 문제로 막힙니다. 그때마다 한 번에 하나만 바꾸고, 순정 펌웨어 · 닫힌 위치 같은 정상 기준으로 먼저 되돌려 원인을 좁혔습니다.
+            경계를 나누는 설계(주행은 USB, 기구는 UART · 운송 노드는 서비스만, 시리얼은 브리지가)가 디버깅과 협업을 쉽게 만들었고,
+            실물 · 시뮬레이션 · 미검증을 구분해 말하는 습관이 팀과 발표의 신뢰를 지켰습니다.
           </p>
         </div>
       </article>
@@ -425,7 +444,6 @@
 
         <div class="proj__links">
           <a href="https://github.com/micoleb3/plc-sorting-automation">GitHub에서 코드 보기 ↗</a>
-          <a href="https://github.com/micoleb3/plc-sorting-automation">GitHub에서 코드 보기 ↗</a>
           <a href="assets/docs/plc-presentation.pdf">발표자료 (PDF) ↗</a>
         </div>
       </article>
@@ -446,19 +464,19 @@
           <span class="skill__no">01</span>
           <h3>로봇 SW · 자율주행</h3>
           <p class="skill__stack">ROS 2 · Nav2 · Python · OpenCV</p>
-          <p class="skill__desc">ArUco 마커와 LiDAR를 결합한 정밀 도킹 노드, 미션 FSM 설계, DDS 네트워크 · 배포 자동화.</p>
+          <p class="skill__desc">ArUco 마커와 LiDAR를 결합한 정밀 도킹 노드, 미션 FSM 설계, 하드웨어를 감싸는 ROS 2 서비스 브리지 노드, DDS 네트워크 · 배포 자동화.</p>
         </article>
         <article class="skill">
           <span class="skill__no">02</span>
           <h3>임베디드 제어</h3>
-          <p class="skill__stack">STM32 · C · HAL · FreeRTOS 환경</p>
-          <p class="skill__desc">L298N 4WD 차동 구동, PCA9685 서보 각도 제어, TIM PWM 구동을 직접 구현.</p>
+          <p class="skill__stack">STM32 · OpenCR · C/C++</p>
+          <p class="skill__desc">L298N 4WD 차동 구동, PCA9685 서보 제어, TIM PWM 구동. TurtleBot3 주행 펌웨어에 기구 제어를 합친 OpenCR 통합 펌웨어(millis 상태머신 · UART 명령 · 완료 회신).</p>
         </article>
         <article class="skill">
           <span class="skill__no">03</span>
           <h3>하드웨어 설계</h3>
           <p class="skill__stack">전원 회로 · 배선 · 핀 배치</p>
-          <p class="skill__desc">전원 분리 구조 설계, 강압·안정화 회로, 공통 GND 결선과 STM32 핀 배치.</p>
+          <p class="skill__desc">전원 분리 구조 설계, 강압·안정화 회로, 공통 GND 결선과 핀 배치. 운송로봇 기구 전용 전원 · 배선도 v1→v3, 3D 프린팅 부품 재설계 · 조립.</p>
         </article>
         <article class="skill">
           <span class="skill__no">04</span>
