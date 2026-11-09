@@ -45,7 +45,6 @@
       <dl class="readout" aria-label="요약">
         <div><dt>FOCUS</dt><dd>임베디드 제어 · 산업 자동화</dd></div>
         <div><dt>STACK</dt><dd>STM32 · C/C++ · ROS 2 · PLC</dd></div>
-        <div><dt>STATUS</dt><dd><span class="dot"></span>구직 중 — 로봇 · 임베디드 · 기술영업</dd></div>
       </dl>
     </section>
 
@@ -63,7 +62,7 @@
       <article class="proj" id="project-transport">
         <div class="proj__tag">
           <span class="proj__badge">PROJECT 01 / AUTONOMOUS MOBILE ROBOT</span>
-          <span class="proj__live"><span class="dot"></span>통합 시험 단계</span>
+          <span class="proj__live"><span class="dot"></span>최종 발표 완료 · 2026.11.05</span>
           <div class="proj__chips">
             <span>ROS 2 Jazzy</span><span>Nav2</span><span>Python · rclpy</span>
             <span>ArUco · LiDAR</span><span>OpenCR · Arduino C++</span><span>TurtleBot3</span>
@@ -82,7 +81,7 @@
             <div><dt>내 역할</dt><dd>운송로봇 공동 담당 —
               <strong>9/10–10/12 주행 · 정밀 도킹</strong>(요구사항 · FSM 설계, Nav2 주행, ArUco + LiDAR 도킹, 팀 라우트서버 연동) ·
               <strong>10/13~ 바구니 구동부</strong>(기구 제작, 전원 · 배선, OpenCR 펌웨어, ROS 2 브리지 노드, URDF 실물 반영)</dd></div>
-            <div><dt>팀 구성</dt><dd>7인 팀 · KDT 로봇 3기 최종 프로젝트 · 2026.09 ~ 2026.11 · 10/14 이후 주행 · 도킹은 팀원이 이어받음</dd></div>
+            <div><dt>팀 구성</dt><dd>3팀 ManyFarm · 7인 · KDT 로봇 3기 최종 프로젝트 · 2026.09 ~ 2026.11 (11/5 최종 발표) · 10/14 이후 주행 · 도킹은 팀원이 이어받음</dd></div>
             <div><dt>플랫폼</dt><dd>TurtleBot3 Waffle Pi (Raspberry Pi 4, OpenCR 1.0, LiDAR, Pi 카메라 V2) + 직접 만든 적재 바구니</dd></div>
           </dl>
         </div>
@@ -171,7 +170,7 @@
         <div class="proj__note">
           <span class="proj__note-k">협업 범위</span>
           관제 · 라우트서버 · Zenoh 연결은 팀 코드이며 수정 없이 그 위에 얹었습니다. 10/14 이후 주행 · 도킹과 FSM 변경은 팀원이 이어받았고,
-          운송 미션 노드 · 관제와의 통합 시험은 팀과 함께 진행 중입니다.
+          팀 운송 노드가 이 브리지 서비스를 호출하도록 연동되었고(실물 설정 <code>backend: trigger</code>), 11/5 최종 발표까지 팀과 함께 통합했습니다.
         </div>
 
         <div class="proj__block proj__block--quiet">
@@ -181,6 +180,11 @@
             경계를 나누는 설계(주행은 USB, 기구는 UART · 운송 노드는 서비스만, 시리얼은 브리지가)가 디버깅과 협업을 쉽게 만들었고,
             실물 · 시뮬레이션 · 미검증을 구분해 말하는 습관이 팀과 발표의 신뢰를 지켰습니다.
           </p>
+        </div>
+
+        <div class="proj__links">
+          <a href="https://github.com/micoleb3/manyfarm">GitHub에서 코드 보기 ↗</a>
+          <a href="assets/docs/manyfarm-presentation.pdf">최종 발표자료 (PDF) ↗</a>
         </div>
       </article>
 
